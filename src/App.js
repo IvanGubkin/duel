@@ -1,23 +1,66 @@
-import logo from './logo.svg';
-import './App.css';
+import {useEffect, useState} from "react";
+import "./App.css";
 
-function App() {
+function App({gameController}) {
+  useEffect(()=>{
+    
+  },[gameController])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="player_account">
+        <p>Счет</p>1 : 3
+      </div>
+      <div className="container_slider">
+        <div>
+          <div>
+            <p>Speed user</p>
+            <input
+              type="range"
+              min={0.3}
+              max={0.8}
+              step={0.05}
+              onChange={()=>{}}
+              id="myRange"
+            ></input>{" "}
+          </div>
+          <div>
+            <p>Intensive spell</p>
+            <input
+              type="range"
+              min={0.3}
+              max={0.8}
+              step={0.05}
+
+              id="myRange"
+            ></input>
+          </div>
+        </div>
+        <div>
+          <div>
+            <p>Speed user</p>
+            <input
+              type="range"
+              min={0.3}
+              max={0.8}
+              step={0.05}
+              class="custom-slider"
+              id="myRange"
+            ></input>{" "}
+          </div>
+          <div>
+            <p>Intensive spell</p>
+            <input
+              type="range"
+              min={0.3}
+              max={0.8}
+              step={0.05}
+              class="custom-slider"
+              id="myRange"
+            ></input>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
