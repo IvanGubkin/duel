@@ -1,5 +1,5 @@
 export class GameController {
-  _user1 = {
+  user1 = {
     lastSpell: 0,
     x: 100,
     y: window.innerHeight / 2,
@@ -13,7 +13,7 @@ export class GameController {
       position: [],
     },
   };
-  _user2 = {
+  user2 = {
     lastSpell: 0,
     x: window.innerWidth - 100,
     y: window.innerHeight / 2,
@@ -36,18 +36,21 @@ export class GameController {
     this.ctx = canvas.getContext("2d");
   }
 
+  setHits(){
 
-    setUser1Speed(value) {
-     this._user1.speed = value;
+    
+  }
 
-    }
+  setUserSpeed(value, user) {
+    this.user1.speed = value;
+  }
 
   render() {
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    this.userFigure(this._user2);
-    this.userFigure(this._user1);
-    this.renderSpells(this._user1);
-    this.renderSpells(this._user2);
+    this.userFigure(this.user2);
+    this.userFigure(this.user1);
+    this.renderSpells(this.user1);
+    this.renderSpells(this.user2);
   }
 
   renderSpells(user) {
@@ -57,18 +60,36 @@ export class GameController {
   }
 
   gameState(delta) {
-    this.upDateUser(delta, this._user1);
-    this.upDateUser(delta, this._user2);
-    this.createSpell(this._user1);
-    this.createSpell(this._user2);
-    this.updateSpell(this._user1, "right", delta);
-    this.updateSpell(this._user2, "left", delta);
+    this.upDateUser(delta, this.user1);
+    this.upDateUser(delta, this.user2);
+    this.createSpell(this.user1);
+    this.createSpell(this.user2);
+    this.updateSpell(this.user1, "right", delta);
+    this.updateSpell(this.user2, "left", delta);
   }
 
   upDateUser(delta, user) {
     this.checkTouchBorder(user);
     this.checkMouseCollision(user);
     user.y += user.speed * delta;
+  }
+
+  setSpellSpeedUser(value, user) {
+    if (user == "one") {
+      user = this.user1;
+    } else user = this.user2;
+
+    user.spell.intensive = value;
+  }
+
+  setSpeedUser(value, user) {
+    if (user == "one") {
+      user = this.user1;
+    } else user = this.user2;
+
+    if (user.speed > 0) {
+      user.speed = Number(value);
+    } else user.speed = Number(-value);
   }
 
   createSpell(user) {
@@ -134,19 +155,20 @@ export class GameController {
   checkHitsSpellUser(user) {
     for (let i = 0; i < user.spell.position.length; i++) {
       let distance1 = Math.sqrt(
-        Math.pow(this._user1.x - user.spell.position[i][0], 2) +
-          Math.pow(this._user1.y - user.spell.position[i][1], 2)
+        Math.pow(this.user1.x - user.spell.position[i][0], 2) +
+          Math.pow(this.user1.y - user.spell.position[i][1], 2)
       );
       let distance2 = Math.sqrt(
-        Math.pow(this._user2.x - user.spell.position[i][0], 2) +
-          Math.pow(this._user2.y - user.spell.position[i][1], 2)
+        Math.pow(this.user2.x - user.spell.position[i][0], 2) +
+          Math.pow(this.user2.y - user.spell.position[i][1], 2)
       );
       if (
-        (distance2 < 70 && this._user2.y != user.y) ||
-        (distance1 < 70 && this._user1.y != user.y)
+        (distance2 < 70 && this.user2.y != user.y) ||
+        (distance1 < 70 && this.user1.y != user.y)
       ) {
         user.spell.position.splice(i, 1);
         user.hits++;
+        this.setHits();
       }
     }
   }
